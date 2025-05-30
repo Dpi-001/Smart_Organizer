@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:smartapi/features/auth/presentation/widgets/input_fields.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _registerKey = GlobalKey<FormState>();
+
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -29,7 +36,7 @@ class RegisterScreen extends StatelessWidget {
                     letterSpacing: 10,
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 Form(
                   key: _registerKey,
                   child: Column(
@@ -52,7 +59,7 @@ class RegisterScreen extends StatelessWidget {
                           // Save the full name value if needed
                         },
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 2),
                       inputFields(
                         context: context,
                         hintText: "Enter your email",
@@ -67,7 +74,7 @@ class RegisterScreen extends StatelessWidget {
 
                         TextInputType: TextInputType.emailAddress,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 2),
                       // Using the reusable inputFields widget for Password
                       inputFields(
                         context: context,
@@ -84,7 +91,7 @@ class RegisterScreen extends StatelessWidget {
                         controller: _passwordController,
                         TextInputType: TextInputType.visiblePassword,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 2),
 
                       inputFields(
                         context: context,
@@ -103,7 +110,7 @@ class RegisterScreen extends StatelessWidget {
 
                         TextInputType: TextInputType.visiblePassword,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 2),
 
                       inputFields(
                         context: context,
@@ -118,7 +125,7 @@ class RegisterScreen extends StatelessWidget {
                         icon: Icons.location_on_outlined,
                         TextInputType: TextInputType.visiblePassword,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 2),
 
                       inputFields(
                         context: context,
@@ -138,7 +145,7 @@ class RegisterScreen extends StatelessWidget {
 
                         TextInputType: TextInputType.visiblePassword,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 2),
 
                       ElevatedButton(
                         onPressed: () {
@@ -169,7 +176,7 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             child: Text("Login"),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/loginScreen');
+                              Navigator.pushNamed(context, '/login');
                             },
                           ),
                         ],
