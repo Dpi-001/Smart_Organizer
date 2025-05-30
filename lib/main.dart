@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smartapi/constants/app_routes.dart';
 import 'package:smartapi/features/auth/presentation/screens/login_screen.dart';
+import 'package:smartapi/features/auth/presentation/screens/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +34,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: LoginScreen(),
+      routes: {
+        AppRoutes.loginScreen: (ctx) => LoginScreen(),
+        AppRoutes.registerScreen: (ctx) => RegisterScreen(),
+      },
     );
   }
 }
