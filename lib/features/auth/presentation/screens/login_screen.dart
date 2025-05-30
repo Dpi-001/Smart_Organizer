@@ -132,7 +132,7 @@ class LoginScreen extends StatelessWidget {
                   Text("Don't have an account?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/registerScreen');
+                      Navigator.pushNamed(context, '/register');
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
