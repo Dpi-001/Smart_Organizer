@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartapi/features/auth/data/models/User.dart';
 import 'package:smartapi/features/auth/presentation/widgets/input_fields.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _registerKey = GlobalKey<FormState>();
 
   final TextEditingController _passwordController = TextEditingController();
+  User? user = User();
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         TextInputType: TextInputType.name,
                         onSaved: (value) {
+                          user!.fullName = value; // Save the full name value
                           // Save the full name value if needed
                         },
                       ),
@@ -73,6 +76,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icon: Icons.email_outlined,
 
                         TextInputType: TextInputType.emailAddress,
+                        onSaved: (value) {
+                          user!.email = value; // Save the email value
+                        },
                       ),
                       SizedBox(height: 2),
                       // Using the reusable inputFields widget for Password
@@ -90,6 +96,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscure: true,
                         controller: _passwordController,
                         TextInputType: TextInputType.visiblePassword,
+                        onSaved: (value) {
+                          user!.password = value; // Save the password value
+                        },
                       ),
                       SizedBox(height: 2),
 
@@ -109,6 +118,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscure: true,
 
                         TextInputType: TextInputType.visiblePassword,
+                        onSaved: (value) {
+                          // You can save the confirmed password if needed
+                        },
                       ),
                       SizedBox(height: 2),
 
@@ -124,6 +136,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         icon: Icons.location_on_outlined,
                         TextInputType: TextInputType.visiblePassword,
+                        onSaved: (value) {
+                          user!.address = value; // Save the address value
+                        },
                       ),
                       SizedBox(height: 2),
 
@@ -144,6 +159,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icon: Icons.phone_outlined,
 
                         TextInputType: TextInputType.visiblePassword,
+
+                        onSaved: (value) {
+                          user!.phoneNumber =
+                              value; // Save the phone number value
+                        },
                       ),
                       SizedBox(height: 2),
 
@@ -153,6 +173,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             // Handle registration logic here
                             return;
                           }
+                          _registerKey.currentState!.save();
+                          // You can now use the user object with all the saved values
+                          print(user!.toJson());
                         },
                         child: Text("Register"),
                         style: ElevatedButton.styleFrom(
