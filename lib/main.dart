@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:smartapi/constants/app_routes.dart';
+import 'package:smartapi/core/services/service_locator.dart';
 import 'package:smartapi/features/auth/presentation/screens/login_screen.dart';
 import 'package:smartapi/features/auth/presentation/screens/register_screen.dart';
 
 void main() {
+  ServiceLocator.setupServiceLocator();
   runApp(const MyApp());
 }
 
