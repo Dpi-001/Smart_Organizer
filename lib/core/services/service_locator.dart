@@ -14,5 +14,6 @@ class ServiceLocator {
     getIt.registerLazySingleton<AuthRepositories>(
       () => AuthRepositoriesImpl(authDataSources: getIt<AuthDataSources>()),
     );
+    // Add more services as needed of rgister if you need to register them
   }
 }
