@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartapi/core/utils/toaster.dart';
 import 'package:smartapi/features/auth/data/models/User.dart';
+import 'package:smartapi/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:smartapi/features/auth/presentation/widgets/input_fields.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -38,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     letterSpacing: 10,
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Form(
                   key: _registerKey,
                   child: Column(
@@ -58,11 +63,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         TextInputType: TextInputType.name,
                         onSaved: (value) {
-                          user!.fullName = value; // Save the full name value
+                          //add json serialization logic here
+                          user!.name =
+                              value; // Assuming you have a user object to save the full name
                           // Save the full name value if needed
                         },
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 10),
                       inputFields(
                         context: context,
                         hintText: "Enter your email",
@@ -77,10 +84,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         TextInputType: TextInputType.emailAddress,
                         onSaved: (value) {
-                          user!.email = value; // Save the email value
+                          //add json serialization logic here
+                          user!.email =
+                              value; // Assuming you have a user object to save the email
+                          // Save the email value if needed
                         },
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 10),
                       // Using the reusable inputFields widget for Password
                       inputFields(
                         context: context,
@@ -97,10 +107,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _passwordController,
                         TextInputType: TextInputType.visiblePassword,
                         onSaved: (value) {
-                          user!.password = value; // Save the password value
+                          //add json serialization logic here
+
+                          user!.password =
+                              value; // Assuming you have a user object to save the full name
+                          // Save the full name value if needed
                         },
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 10),
 
                       inputFields(
                         context: context,
@@ -118,11 +132,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscure: true,
 
                         TextInputType: TextInputType.visiblePassword,
-                        onSaved: (value) {
-                          // You can save the confirmed password if needed
-                        },
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 10),
 
                       inputFields(
                         context: context,
@@ -137,10 +148,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icon: Icons.location_on_outlined,
                         TextInputType: TextInputType.visiblePassword,
                         onSaved: (value) {
-                          user!.address = value; // Save the address value
+                          //add json serialization logic here
+
+                          user!.address =
+                              value; // Assuming you have a user object to save the address
+                          // Save the address value if needed
                         },
                       ),
-                      SizedBox(height: 2),
+
+                      SizedBox(height: 10),
 
                       inputFields(
                         context: context,
@@ -159,33 +175,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icon: Icons.phone_outlined,
 
                         TextInputType: TextInputType.visiblePassword,
-
                         onSaved: (value) {
-                          user!.phoneNumber =
-                              value; // Save the phone number value
+                          //add json serialization logic here
+
+                          user!.phone =
+                              value; // Assuming you have a user object to save the phone number
+                          // Save the phone number value if needed
                         },
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 10),
 
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_registerKey.currentState!.validate()) {
-                            // Handle registration logic here
-                            return;
+                      BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          if (state is RegisterErrorState) {
+                            print("Error message: ${state.errorMessage}");
+                            showToaster(
+                              context: context,
+                              message: state.errorMessage,
+                              backgroundColor: Colors.red,
+                            );
                           }
-                          _registerKey.currentState!.save();
-                          // You can now use the user object with all the saved values
-                          print(user!.toJson());
+
+                          if (state is RegisterSuccessState) {
+                            print("Success message: ${state.SuccessMessage}");
+                            showToaster(
+                              context: context,
+                              message: state.SuccessMessage,
+                              backgroundColor: Colors.green,
+                            );
+                          }
                         },
-                        child: Text("Register"),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: Size(150, 50), //width and height
-                          backgroundColor: Colors.deepPurple,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            onPressed: () {
+                              if (!_registerKey.currentState!.validate()) {
+                                // Handle registration logic here
+                                return;
+                              }
+                              _registerKey.currentState!.save();
+                              // print(user!.toJson());
+                              context.read<AuthBloc>().add(
+                                RegisterEvent(userData: user!.toMap()),
+                              );
+                            },
+                            child: Text("Register"),
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(150, 50), //width and height
+                              backgroundColor: Colors.deepPurple,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -199,7 +243,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             child: Text("Login"),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/login');
+                              Navigator.pushNamed(context, '/loginScreen');
                             },
                           ),
                         ],
