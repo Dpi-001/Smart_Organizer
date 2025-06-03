@@ -36,20 +36,42 @@ class CustomDioException implements Exception {
 
   String _handleError({int? statusCode, dynamic error}) {
     if (statusCode == null) return "An unexpected error occurred.";
+
+    String? extractedMessage;
+
+    if (error is Map<String, dynamic>) {
+      // Get message if available
+      extractedMessage = error['message'];
+
+      // Special handling for Laravel-style validation errors
+      if (statusCode == 422 && error.containsKey('errors')) {
+        final errors = error['errors'];
+        if (errors is Map<String, dynamic>) {
+          final firstKey = errors.keys.first;
+          final fieldErrors = errors[firstKey];
+          if (fieldErrors is List && fieldErrors.isNotEmpty) {
+            extractedMessage =
+                fieldErrors[0]; // Return the first validation error
+          }
+        }
+      }
+    } else if (error is String) {
+      extractedMessage = error;
+    }
+
     switch (statusCode) {
       case 400:
-        return error?["message"] ?? "Bad request. Please try again.";
+        return extractedMessage ?? "Bad request. Please try again.";
       case 401:
         return "You’ve been logged out. Please sign in again.";
       case 403:
-        return error?["message"] ?? "Forbidden. You don't have access.";
+        return extractedMessage ?? "Forbidden. You don't have access.";
       case 404:
-        return error?["message"] ?? "Resource not found.";
+        return extractedMessage ?? "Resource not found.";
       case 409:
-        return error?["message"] ?? "Conflict occurred. Please try again.";
+        return extractedMessage ?? "Conflict occurred. Please try again.";
       case 422:
-        return error?["message"] ??
-            (error?["details"]?.toString() ?? "Validation error occurred.");
+        return extractedMessage ?? "Validation error occurred.";
       case 500:
         return "Internal server error. Please try again later.";
       default:
