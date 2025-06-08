@@ -41,7 +41,8 @@ class CustomDioException implements Exception {
 
     if (error is Map<String, dynamic>) {
       // Get message if available
-      extractedMessage = error['message'];
+      extractedMessage =
+          error['details']; //deatils is the key for error message in the API response according to backend
 
       // Special handling for Laravel-style validation errors
       if (statusCode == 422 && error.containsKey('errors')) {
