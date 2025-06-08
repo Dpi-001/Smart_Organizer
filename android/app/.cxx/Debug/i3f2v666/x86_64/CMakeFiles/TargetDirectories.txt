@@ -1,0 +1,2 @@
+C:/Users/lenovo/Desktop/FlutterLict/SmartFlutterapi/smartapi/android/app/.cxx/Debug/i3f2v666/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/lenovo/Desktop/FlutterLict/SmartFlutterapi/smartapi/android/app/.cxx/Debug/i3f2v666/x86_64/CMakeFiles/rebuild_cache.dir
