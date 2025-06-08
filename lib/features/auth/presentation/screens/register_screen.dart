@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smartapi/constants/app_routes.dart';
 import 'package:smartapi/core/utils/toaster.dart';
 import 'package:smartapi/features/auth/data/models/User.dart';
 import 'package:smartapi/features/auth/presentation/bloc/bloc/auth_bloc.dart';
@@ -203,6 +204,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               message: state.SuccessMessage,
                               backgroundColor: Colors.green,
                             );
+
+                            Navigator.of(
+                              context,
+                            ).pushReplacementNamed(AppRoutes.homeScreen);
                           }
                         },
 
